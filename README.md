@@ -3,10 +3,7 @@
 ## Quick Start Guide
 
 ```sh
-# build image
-docker build -t my-php-app .
-# run docker container
-docker run --name my-running-app -p 8080:80 my-php-app
+docker-compose up --build
 ```
 
 `http://localhost:8080` にブラウザからアクセス。
