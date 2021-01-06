@@ -17,6 +17,6 @@ RUN curl -s https://getcomposer.org/installer \
         --2
 
 # install php extentions
-RUN docker-php-ext-install intl
+RUN docker-php-ext-install intl pdo_mysql
 
 WORKDIR /var/www
