@@ -6,7 +6,7 @@ COPY .docker/etc/apache2/ /etc/apache2/
 # install apt packages
 RUN set -eux; \
 	apt-get update; \
-	apt-get install -y --no-install-recommends git libicu-dev; \
+	apt-get install -y --no-install-recommends git libicu-dev libonig-dev libxml2-dev; \
 	rm -rf /var/lib/apt/lists/*;
 
 # install composer
