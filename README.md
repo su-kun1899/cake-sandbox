@@ -12,7 +12,7 @@ docker exec \
   cake-sandbox_web_1 \
   composer install \
     --prefer-dist \
-    -d /var/www/cake-sandbox
+    -d /var/www/cake_app
 ```
 
 `http://localhost:8080` にブラウザからアクセス。

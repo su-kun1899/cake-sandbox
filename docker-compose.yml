@@ -5,4 +5,4 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/cake-sandbox
+      - .:/var/www/cake_app
