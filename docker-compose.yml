@@ -1,8 +1,9 @@
 version: "3.9"
 services:
   web:
+    container_name: cake-sandbox-web
     build: .
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/cake-sandbox
+      - .:/var/www/cake_app
