@@ -21,4 +21,4 @@ RUN curl -s https://getcomposer.org/installer \
 # install php extentions
 RUN docker-php-ext-install intl pdo_mysql
 
-WORKDIR /var/www
+WORKDIR /var/www/cake_app

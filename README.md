@@ -16,3 +16,11 @@ docker exec \
 ```
 
 `http://localhost:8080` にブラウザからアクセス。
+
+## Run Tests
+
+```sh
+docker exec \
+  cake-sandbox-web \
+  vendor/bin/phpunit
+```
