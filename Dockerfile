@@ -21,4 +21,8 @@ RUN curl -s https://getcomposer.org/installer \
 # install php extentions
 RUN docker-php-ext-install intl pdo_mysql
 
+# xdebug for dev
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 WORKDIR /var/www/cake_app
