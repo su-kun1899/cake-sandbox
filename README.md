@@ -24,3 +24,9 @@ docker exec \
   cake-sandbox-web \
   vendor/bin/phpunit
 ```
+
+## Connect database
+
+```sh
+mysql -u root -p -h 127.0.0.1 -P 13306
+```
