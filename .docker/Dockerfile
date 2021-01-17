@@ -1,8 +1,8 @@
 FROM php:8.0-apache
 
 # setup configuration
-COPY .docker/etc/apache2/ /etc/apache2/
-COPY .docker/usr/local/etc/php/ /usr/local/etc/php/
+COPY web/etc/apache2 /etc/apache2/
+COPY web/usr/local/etc/php /usr/local/etc/php/
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # install apt packages
