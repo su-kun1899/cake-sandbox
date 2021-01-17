@@ -14,3 +14,6 @@ services:
       - "13306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
+    volumes:
+      - ./.docker/db/etc/mysql/conf.d:/etc/mysql/conf.d
+      - ./.docker/db/data:/var/lib/mysql
