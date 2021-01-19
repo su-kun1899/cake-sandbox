@@ -13,6 +13,9 @@ docker exec \
   composer install \
     --prefer-dist \
     -d /var/www/cake_app
+
+# setup .env
+cp config/.env.example config/.env
 ```
 
 `http://localhost:8080` にブラウザからアクセス。
