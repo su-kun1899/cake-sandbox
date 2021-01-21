@@ -16,6 +16,16 @@ docker exec \
 
 # setup .env
 cp config/.env.example config/.env
+
+# create database
+docker exec \
+  cake-sandbox-web \
+  bin/cake migrations migrate
+
+# seed data
+docker exec \
+  cake-sandbox-web \
+  bin/cake migrations seed --seed DatabaseSeed
 ```
 
 `http://localhost:8080` にブラウザからアクセス。
