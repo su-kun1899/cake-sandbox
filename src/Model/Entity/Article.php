@@ -34,7 +34,7 @@ class Article extends Entity
     protected $_accessible = [
         'user_id' => true,
         'title' => true,
-        'slug' => true,
+        'slug' => false,
         'body' => true,
         'published' => true,
         'created' => true,
