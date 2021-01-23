@@ -1,7 +1,11 @@
 FROM php:8.0-apache
 
-# setup configuration
+# setup apache configuration
 COPY web/etc/apache2 /etc/apache2/
+RUN set -eux; \
+    a2enmod rewrite;
+
+# setup php configuration
 COPY web/usr/local/etc/php /usr/local/etc/php/
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
