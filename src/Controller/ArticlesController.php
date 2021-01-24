@@ -19,15 +19,11 @@ class ArticlesController extends AppController
     /**
      * Index method
      *
-     * @return Response|null|void Renders view
+     * @return void
      */
-    public function index(): ?Response
+    public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
         $articles = $this->paginate($this->Articles);
-
         $this->set(compact('articles'));
     }
 }
