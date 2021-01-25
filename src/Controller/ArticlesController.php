@@ -6,7 +6,6 @@ namespace App\Controller;
 use App\Model\Entity\Article;
 use App\Model\Table\ArticlesTable;
 use Cake\Datasource\ResultSetInterface;
-use Cake\Http\Response;
 
 /**
  * Articles Controller
