@@ -18,12 +18,20 @@ class ArticlesController extends AppController
 {
     /**
      * Index method
-     *
-     * @return void
      */
     public function index()
     {
         $articles = $this->paginate($this->Articles);
         $this->set(compact('articles'));
+    }
+
+    /**
+     * View method
+     * @param null|string $slug
+     */
+    public function view($slug = null)
+    {
+        $article = $this->Articles->findBySlug($slug)->firstOrFail();
+        $this->set(compact('article'));
     }
 }
