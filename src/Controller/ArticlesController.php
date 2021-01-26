@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Model\Entity\Article;
 use App\Model\Table\ArticlesTable;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Response;
 
 /**
  * Articles Controller
@@ -32,5 +33,28 @@ class ArticlesController extends AppController
     {
         $article = $this->Articles->findBySlug($slug)->firstOrFail();
         $this->set(compact('article'));
+    }
+
+    /**
+     * Add method
+     */
+    public function add(): ?Response
+    {
+        $article = $this->Articles->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $article = $this->Articles->patchEntity($article, $this->request->getData());
+
+            // TODO user_id の決め打ちは一時的
+            $article->user_id = 1;
+
+            if ($this->Articles->save($article)) {
+                $this->Flash->success(__('Your article has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to add your article.'));
+        }
+        $this->set('article', $article);
+
+        return null;
     }
 }
