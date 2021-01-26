@@ -4,14 +4,17 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Article;
+use ArrayObject;
 use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 
 /**
@@ -85,7 +88,7 @@ class ArticlesTable extends Table
         $validator
             ->scalar('slug')
             ->maxLength('slug', 191)
-            ->requirePresence('slug', 'create')
+//            ->requirePresence('slug', 'create')
             ->notEmptyString('slug')
             ->add('slug', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
@@ -113,5 +116,21 @@ class ArticlesTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
 
         return $rules;
+    }
+
+    /**
+     * Model.beforeSave イベント
+     *
+     * @param EventInterface $event
+     * @param EntityInterface $entity
+     * @param ArrayObject $options
+     */
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    {
+        if ($entity->isNew() && !$entity->slug) {
+            $sluggedTitle = Text::slug($entity->title);
+            // TODO 重複はまだ考慮していない
+            $entity->slug = substr($sluggedTitle, 0, 191);
+        }
     }
 }
