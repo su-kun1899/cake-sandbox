@@ -80,4 +80,24 @@ class ArticlesController extends AppController
 
         return null;
     }
+
+    /**
+     * Delete method
+     *
+     * @param $slug
+     * @return Response|null
+     */
+    public function delete($slug): ?Response
+    {
+        $this->request->allowMethod(['post', 'delete']);
+
+        /** @var Article $article */
+        $article = $this->Articles->findBySlug($slug)->firstOrFail();
+        if ($this->Articles->delete($article)) {
+            $this->Flash->success(__('The {0} article has been deleted.', $article->title));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        return null;
+    }
 }
