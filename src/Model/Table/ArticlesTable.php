@@ -62,9 +62,7 @@ class ArticlesTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ArticleTags', [
-            'foreignKey' => 'article_id',
-        ]);
+        $this->belongsToMany('Tags');
     }
 
     /**
