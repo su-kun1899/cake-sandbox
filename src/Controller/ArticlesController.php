@@ -54,6 +54,10 @@ class ArticlesController extends AppController
             }
             $this->Flash->error(__('Unable to add your article.'));
         }
+
+        $tags = $this->Articles->Tags->find('list');
+
+        $this->set('tags', $tags);
         $this->set('article', $article);
 
         return null;
@@ -67,7 +71,10 @@ class ArticlesController extends AppController
      */
     public function edit(string $slug): ?Response
     {
-        $article = $this->Articles->findBySlug($slug)->firstOrFail();
+        $article = $this->Articles
+            ->findBySlug($slug)
+            ->contain('Tags')
+            ->firstOrFail();
         if ($this->request->is(['post', 'put'])) {
             $this->Articles->patchEntity($article, $this->request->getData());
             if ($this->Articles->save($article)) {
@@ -76,6 +83,10 @@ class ArticlesController extends AppController
             }
             $this->Flash->error(__('Unable to update your article'));
         }
+
+        $tags = $this->Articles->Tags->find('list');
+
+        $this->set('tags', $tags);
         $this->set('article', $article);
 
         return null;

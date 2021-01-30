@@ -9,7 +9,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\HasMany;
+use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
@@ -21,7 +21,7 @@ use Cake\Validation\Validator;
  * Articles Model
  *
  * @property UsersTable&BelongsTo $Users
- * @property ArticleTagsTable&HasMany $ArticleTags
+ * @property TagsTable&BelongsToMany $Tags
  *
  * @method Article newEmptyEntity()
  * @method Article newEntity(array $data, array $options = [])
