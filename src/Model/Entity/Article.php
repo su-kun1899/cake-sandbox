@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\User $user
- * @property \App\Model\Entity\ArticleTag[] $article_tags
+ * @property Tag[] $tags
  */
 class Article extends Entity
 {
@@ -40,6 +40,6 @@ class Article extends Entity
         'created' => true,
         'modified' => true,
         'user' => true,
-        'article_tags' => true,
+        'tags' => true,
     ];
 }
