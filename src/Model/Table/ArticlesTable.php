@@ -65,7 +65,7 @@ class ArticlesTable extends Table
         $this->belongsToMany(
             'Tags',
             [
-                'joinTable' => 'article_tags',
+                'joinTable' => 'articles_tags',
             ]
         );
     }
