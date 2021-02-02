@@ -138,6 +138,8 @@ class ArticlesTable extends Table
     }
 
     /**
+     * タグの付いた記事を検索する
+     *
      * @param Query $query
      * @param array $options
      * @return Query
