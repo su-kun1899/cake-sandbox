@@ -136,4 +136,38 @@ class ArticlesTable extends Table
             $entity->slug = substr($sluggedTitle, 0, 191);
         }
     }
+
+    /**
+     * タグの付いた記事を検索する
+     *
+     * @param Query $query
+     * @param array $options
+     * @return Query
+     */
+    public function findTagged(Query $query, array $options): Query
+    {
+        $columns = [
+            'Articles.id',
+            'Articles.user_id',
+            'Articles.title',
+            'Articles.body',
+            'Articles.published',
+            'Articles.created',
+            'Articles.slug',
+        ];
+
+        $query = $query
+            ->select($columns)
+            ->distinct($columns);
+
+        if (empty($options['tags'])) {
+            $query->leftJoinWith('Tags')
+                ->where(['Tags.title IS' => null]);
+        } else {
+            $query->innerJoinWith('Tags')
+                ->where(['Tags.title IN' => $options['tags']]);
+        }
+
+        return $query->group(['Articles.id']);
+    }
 }

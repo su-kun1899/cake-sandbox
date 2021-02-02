@@ -111,4 +111,21 @@ class ArticlesController extends AppController
 
         return null;
     }
+
+    public function tags(...$tags)
+    {
+        $articles = $this->Articles->find(
+            'tagged',
+            [
+                'tags' => $tags
+            ]
+        );
+
+        $this->set(
+            [
+                'articles' => $articles,
+                'tags' => $tags
+            ]
+        );
+    }
 }
