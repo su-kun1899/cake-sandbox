@@ -130,11 +130,47 @@ class ArticlesTable extends Table
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
+        /** @var Article $entity */
+        if ($entity->tag_string) {
+            $entity->tags = $this->_buildTags($entity->user_id, $entity->tag_string);
+        }
+
         if ($entity->isNew() && !$entity->slug) {
             $sluggedTitle = Text::slug($entity->title);
             // TODO 重複はまだ考慮していない
             $entity->slug = substr($sluggedTitle, 0, 191);
         }
+    }
+
+    protected function _buildTags($userId, $tagString): array
+    {
+        // タグをトリミング
+        $newTags = array_map('trim', explode(',', $tagString));
+        // すべての空のタグを削除
+        $newTags = array_filter($newTags);
+        // 重複するタグの削減
+        $newTags = array_unique($newTags);
+
+        $out = [];
+        $query = $this->Tags->find()
+            ->where(['Tags.title IN' => $newTags]);
+
+        // 新しいタグのリストから既存のタグを削除
+        foreach ($query->extract('title') as $existing) {
+            $index = array_search($existing, $newTags);
+            if ($index !== false) {
+                unset($newTags[$index]);
+            }
+        }
+        // 既存のタグを追加
+        foreach ($query as $tag) {
+            $out[] = $tag;
+        }
+        // 新しいタグを追加
+        foreach ($newTags as $tag) {
+            $out[] = $this->Tags->newEntity(['title' => $tag, 'user_id' => $userId]);
+        }
+        return $out;
     }
 
     /**

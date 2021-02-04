@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  * Tags Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\ArticleTagsTable&\Cake\ORM\Association\HasMany $ArticleTags
+ * @property \App\Model\Table\ArticlesTable&\Cake\ORM\Association\BelongsToMany $Articles
  *
  * @method \App\Model\Entity\Tag newEmptyEntity()
  * @method \App\Model\Entity\Tag newEntity(array $data, array $options = [])
@@ -52,9 +52,9 @@ class TagsTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
-        $this->hasMany('ArticleTags', [
-            'foreignKey' => 'tag_id',
-        ]);
+        $this->belongsToMany(
+            'Articles'
+        );
     }
 
     /**
