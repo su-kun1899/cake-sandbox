@@ -63,10 +63,7 @@ class ArticlesTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->belongsToMany(
-            'Tags',
-            [
-                'joinTable' => 'articles_tags',
-            ]
+            'Tags'
         );
     }
 
