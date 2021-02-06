@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Event\EventInterface;
+use Cake\Http\Response;
+
 /**
  * Users Controller
  *
@@ -14,7 +17,7 @@ class UsersController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      */
     public function index()
     {
@@ -23,11 +26,39 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->Authentication->addUnauthenticatedActions(['login']);
+    }
+
+    public function login(): ?Response
+    {
+        $this->request->allowMethod(['get', 'post']);
+        $result = $this->Authentication->getResult();
+
+        if ($result->isValid()) {
+            $redirect = $this->request->getQuery('redirect', [
+                'controller' => 'Articles',
+                'action' => 'index',
+            ]);
+
+            return $this->redirect($redirect);
+        }
+
+        if ($this->request->is('post') && !$result->isValid()) {
+            $this->Flash->error(__('Invalid username or password'));
+        }
+
+        return null;
+    }
+
     /**
      * View method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
@@ -42,7 +73,7 @@ class UsersController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -63,7 +94,7 @@ class UsersController extends AppController
      * Edit method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
@@ -87,7 +118,7 @@ class UsersController extends AppController
      * Delete method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @return Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
