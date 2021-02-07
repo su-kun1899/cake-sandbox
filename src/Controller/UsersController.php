@@ -3,14 +3,17 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\User;
+use App\Model\Table\UsersTable;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UsersTable $Users
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property UsersTable $Users
+ * @method User[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
@@ -26,11 +29,12 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): ?Response
     {
         parent::beforeFilter($event);
-
         $this->Authentication->addUnauthenticatedActions(['login']);
+
+        return null;
     }
 
     public function login(): ?Response
@@ -52,6 +56,16 @@ class UsersController extends AppController
         }
 
         return null;
+    }
+
+    public function logout()
+    {
+        $result = $this->Authentication->getResult();
+        // ユーザーがログインしている場合はリダイレクト
+        if ($result->isValid()) {
+            $this->Authentication->logout();
+            $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        }
     }
 
     /**

@@ -18,6 +18,8 @@ namespace App\Controller;
 
 use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
+use Cake\Http\Response;
 use Exception;
 
 /**
@@ -55,5 +57,16 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         $this->loadComponent('Authentication.Authentication');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beforeFilter(EventInterface $event): ?Response
+    {
+        parent::beforeFilter($event);
+        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
+
+        return null;
     }
 }
