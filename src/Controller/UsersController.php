@@ -58,6 +58,16 @@ class UsersController extends AppController
         return null;
     }
 
+    public function logout()
+    {
+        $result = $this->Authentication->getResult();
+        // ユーザーがログインしている場合はリダイレクト
+        if ($result->isValid()) {
+            $this->Authentication->logout();
+            $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        }
+    }
+
     /**
      * View method
      *
