@@ -26,11 +26,12 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): ?Response
     {
         parent::beforeFilter($event);
-
         $this->Authentication->addUnauthenticatedActions(['login']);
+
+        return null;
     }
 
     public function login(): ?Response
