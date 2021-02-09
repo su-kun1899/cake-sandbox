@@ -145,6 +145,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Migrations');
 
         // Load more plugins here
+        $this->addPlugin('Authorization');
     }
 
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
