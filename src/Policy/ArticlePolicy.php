@@ -31,6 +31,7 @@ class ArticlePolicy
      */
     public function canEdit(IdentityInterface $user, Article $article)
     {
+        return true;
     }
 
     /**

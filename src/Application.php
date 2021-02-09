@@ -117,7 +117,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ]))
 
             ->add(new AuthenticationMiddleware($this))
-            ->add(new AuthorizationMiddleware($this));
+            ->add(new AuthorizationMiddleware($this, [
+                'requireAuthorizationCheck' => false,
+            ]));
 
         return $middlewareQueue;
     }
