@@ -22,7 +22,10 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $articles = $this->paginate($this->Articles);
+        $query = $this->Articles->find();
+        $this->Authorization->applyScope($query);
+
+        $articles = $this->paginate($query);
         $this->set(compact('articles'));
     }
 
