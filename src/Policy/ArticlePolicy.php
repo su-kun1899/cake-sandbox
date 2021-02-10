@@ -18,8 +18,9 @@ class ArticlePolicy
      * @param \App\Model\Entity\Article $article
      * @return bool
      */
-    public function canAdd(IdentityInterface $user, Article $article)
+    public function canAdd(?IdentityInterface $user, Article $article)
     {
+        return $user->getOriginalData()->id === $article->user_id;
     }
 
     /**
@@ -31,7 +32,7 @@ class ArticlePolicy
      */
     public function canEdit(IdentityInterface $user, Article $article)
     {
-        return true;
+        return $user->getOriginalData()->id === $article->user_id;
     }
 
     /**
@@ -43,16 +44,6 @@ class ArticlePolicy
      */
     public function canDelete(IdentityInterface $user, Article $article)
     {
-    }
-
-    /**
-     * Check if $user can view Article
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Article $article
-     * @return bool
-     */
-    public function canView(IdentityInterface $user, Article $article)
-    {
+        return $user->getOriginalData()->id === $article->user_id;
     }
 }

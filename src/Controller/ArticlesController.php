@@ -22,7 +22,10 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $articles = $this->paginate($this->Articles);
+        $query = $this->Articles->find();
+        $this->Authorization->applyScope($query);
+
+        $articles = $this->paginate($query);
         $this->set(compact('articles'));
     }
 
@@ -45,11 +48,11 @@ class ArticlesController extends AppController
     public function add(): ?Response
     {
         $article = $this->Articles->newEmptyEntity();
+        $article->user_id = $this->Authentication->getIdentityData('id');
+        $this->Authorization->authorize($article);
+
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
-
-            // TODO user_id の決め打ちは一時的
-            $article->user_id = 1;
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Your article has been saved.'));
@@ -79,7 +82,7 @@ class ArticlesController extends AppController
             ->contain('Tags')
             ->firstOrFail();
 
-        $this->Authorization->authorize($article, 'edit');
+        $this->Authorization->authorize($article);
 
         if ($this->request->is(['post', 'put'])) {
             $this->Articles->patchEntity($article, $this->request->getData());
@@ -110,6 +113,8 @@ class ArticlesController extends AppController
 
         /** @var Article $article */
         $article = $this->Articles->findBySlug($slug)->firstOrFail();
+        $this->Authorization->authorize($article);
+
         if ($this->Articles->delete($article)) {
             $this->Flash->success(__('The {0} article has been deleted.', $article->title));
             return $this->redirect(['action' => 'index']);
