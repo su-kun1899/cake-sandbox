@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Authentication\Controller\Component\AuthenticationComponent;
+use Authorization\Controller\Component\AuthorizationComponent;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
@@ -30,6 +31,7 @@ use Exception;
  *
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
  * @property AuthenticationComponent $Authentication
+ * @property AuthorizationComponent $Authorization
  */
 class AppController extends Controller
 {
@@ -57,6 +59,7 @@ class AppController extends Controller
         //$this->loadComponent('FormProtection');
 
         $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Authorization.Authorization');
     }
 
     /**
