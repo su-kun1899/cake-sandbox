@@ -68,7 +68,8 @@ class AppController extends Controller
     public function beforeFilter(EventInterface $event): ?Response
     {
         parent::beforeFilter($event);
-        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
+        $this->Authentication->addUnauthenticatedActions(['view']);
+        $this->Authorization->setConfig('skipAuthorization', ['view']);
 
         return null;
     }
