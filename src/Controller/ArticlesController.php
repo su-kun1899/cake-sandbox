@@ -45,11 +45,10 @@ class ArticlesController extends AppController
     public function add(): ?Response
     {
         $article = $this->Articles->newEmptyEntity();
+        $article->user_id = $this->Authentication->getIdentityData('id');
+
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
-
-            // TODO user_id の決め打ちは一時的
-            $article->user_id = 1;
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Your article has been saved.'));
