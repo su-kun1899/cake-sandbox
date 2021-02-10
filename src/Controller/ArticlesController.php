@@ -46,6 +46,7 @@ class ArticlesController extends AppController
     {
         $article = $this->Articles->newEmptyEntity();
         $article->user_id = $this->Authentication->getIdentityData('id');
+        $this->Authorization->authorize($article);
 
         if ($this->request->is('post')) {
             $article = $this->Articles->patchEntity($article, $this->request->getData());
@@ -78,7 +79,7 @@ class ArticlesController extends AppController
             ->contain('Tags')
             ->firstOrFail();
 
-        $this->Authorization->authorize($article, 'edit');
+        $this->Authorization->authorize($article);
 
         if ($this->request->is(['post', 'put'])) {
             $this->Articles->patchEntity($article, $this->request->getData());
@@ -109,6 +110,8 @@ class ArticlesController extends AppController
 
         /** @var Article $article */
         $article = $this->Articles->findBySlug($slug)->firstOrFail();
+        $this->Authorization->authorize($article);
+
         if ($this->Articles->delete($article)) {
             $this->Flash->success(__('The {0} article has been deleted.', $article->title));
             return $this->redirect(['action' => 'index']);
