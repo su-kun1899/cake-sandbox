@@ -118,6 +118,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
+                // TODO 認可チェックが一度でも実行されたか Check. 本来は true が望ましい
                 'requireAuthorizationCheck' => false,
             ]));
 
