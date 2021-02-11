@@ -84,11 +84,19 @@ $routes->scope('/', function (RouteBuilder $builder) {
  * ```
  * $routes->scope('/api', function (RouteBuilder $builder) {
  *     // No $builder->applyMiddleware() here.
- *     
+ *
  *     // Parse specified extensions from URLs
  *     // $builder->setExtensions(['json', 'xml']);
- *     
+ *
  *     // Connect API actions here.
  * });
  * ```
  */
+$routes->scope('/api', ['prefix' => 'Api'],function (RouteBuilder $builder) {
+    $builder->scope('/:controller', function (RouteBuilder $builder) {
+        $builder->get('/', ['action' => 'index']);
+    });
+//    $builder->scope('/articles', ['controller' => 'Articles'], function (RouteBuilder $builder) {
+//        $builder->get('/', ['action' => 'index']);
+//    });
+});
