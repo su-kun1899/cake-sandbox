@@ -36,7 +36,8 @@ class ArticlesController extends AppController
         parent::beforeFilter($event);
 
         // TODO 現状 API の認証はなし
-        $this->Authentication->addUnauthenticatedActions(['index', 'add']);
+        $action = $this->request->getParam('action');
+        $this->Authentication->addUnauthenticatedActions([$action]);
 
         // TODO API の基底クラスでやってもよさそう
         $this->RequestHandler->renderAs($this, 'json');
