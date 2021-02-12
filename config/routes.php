@@ -96,6 +96,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
 $routes->scope('/api', ['prefix' => 'Api'],function (RouteBuilder $builder) {
     $builder->scope('/:controller', function (RouteBuilder $builder) {
         $builder->get('/', ['action' => 'index']);
+        $builder->post('/', ['action' => 'add']);
     });
 //    $builder->scope('/articles', ['controller' => 'Articles'], function (RouteBuilder $builder) {
 //        $builder->get('/', ['action' => 'index']);
