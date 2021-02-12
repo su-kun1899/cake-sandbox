@@ -37,6 +37,7 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Cake\Routing\RouteBuilder;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -112,9 +113,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/controllers/middleware.html#cross-site-request-forgery-csrf-middleware
-            ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
-            ]))
+//            ->add(new CsrfProtectionMiddleware([
+//                'httponly' => true,
+//            ]))
 
             ->add(new AuthenticationMiddleware($this))
             ->add(new AuthorizationMiddleware($this, [
@@ -194,5 +195,14 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $resolver = new OrmResolver();
 
         return new AuthorizationService($resolver);
+    }
+
+    public function routes(RouteBuilder $routes): void
+    {
+        // api は csrf 使わないので、 routes で定義する
+        $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
+                'httponly' => true,
+        ]));
+        parent::routes($routes);
     }
 }
