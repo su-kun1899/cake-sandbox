@@ -80,6 +80,11 @@ class ArticlesTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->integer('user_id')
+            ->requirePresence('user_id', 'create')
+            ->notEmptyString('user_id');
+
+        $validator
             ->scalar('title')
             ->maxLength('title', 255)
             ->requirePresence('title', 'create')
