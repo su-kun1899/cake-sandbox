@@ -339,6 +339,9 @@ return [
             'driver' => Mysql::class,
             'persistent' => false,
             'timezone' => 'UTC',
+
+            'url' => env('DATABASE_TEST_URL', null),
+
             //'encoding' => 'utf8mb4',
             'flags' => [],
             'cacheMetadata' => true,
