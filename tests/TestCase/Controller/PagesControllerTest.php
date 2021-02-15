@@ -29,6 +29,12 @@ class PagesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->mockAuthSession();
+    }
+
     /**
      * testMultipleGet method
      *
@@ -122,5 +128,19 @@ class PagesControllerTest extends TestCase
 
         $this->assertResponseCode(200);
         $this->assertResponseContains('CakePHP');
+    }
+
+    private function mockAuthSession(): void
+    {
+        $this->session(
+            [
+                'Auth' => [
+                    'User' => [
+                        'id' => 1,
+                        'username' => 'testing',
+                    ]
+                ]
+            ]
+        );
     }
 }
