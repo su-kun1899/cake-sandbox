@@ -86,10 +86,12 @@ class ArticlesController extends AppController
         }
 
         $this->set(compact('article'));
+    }
 
-        // オブジェクトとして返したいときはオプション指定が必要
-        $this->viewBuilder()->setOptions([
-            'jsonOptions' => JSON_FORCE_OBJECT,
-        ]);
+    protected function enableForceObject()
+    {
+        // TODO 基底クラスに何か用意してあげるとよさそう
+        // 空の場合でもオブジェクトとして返したいときはオプション指定が必要
+        $this->viewBuilder()->setOption('jsonOptions', JSON_FORCE_OBJECT);
     }
 }
