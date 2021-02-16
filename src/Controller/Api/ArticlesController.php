@@ -57,9 +57,16 @@ class ArticlesController extends AppController
         ];
         $articles = $this->paginate($this->Articles);
 
-        // TODO 基底クラスに何か用意してあげるとよさそう
         $this->set(compact('articles'));
-        $this->viewBuilder()->setOption('serialize', ['articles']);
+    }
+
+    public function beforeRender(EventInterface $event)
+    {
+        // TODO 基底クラスに何か用意してあげるとよさそう
+        // viewVar を json レスポンス用に serialize する
+        parent::beforeRender($event);
+        $viewVars = array_keys($this->viewBuilder()->getVars());
+        $this->viewBuilder()->setOption('serialize', $viewVars);
     }
 
     /**
@@ -83,7 +90,6 @@ class ArticlesController extends AppController
         // オブジェクトとして返したいときはオプション指定が必要
         $this->viewBuilder()->setOptions([
             'jsonOptions' => JSON_FORCE_OBJECT,
-            'serialize' => 'article'
         ]);
     }
 }
