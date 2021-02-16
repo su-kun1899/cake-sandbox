@@ -59,7 +59,7 @@ class ArticlesController extends AppController
 
         // TODO 基底クラスに何か用意してあげるとよさそう
         $this->set(compact('articles'));
-        $this->set('_serialize', ['articles']);
+        $this->viewBuilder()->setOption('serialize', ['articles']);
     }
 
     /**
@@ -81,7 +81,9 @@ class ArticlesController extends AppController
         $this->set(compact('article'));
 
         // オブジェクトとして返したいときはオプション指定が必要
-        $this->set('_jsonOptions', JSON_FORCE_OBJECT);
-        $this->set('_serialize', 'article');
+        $this->viewBuilder()->setOptions([
+            'jsonOptions' => JSON_FORCE_OBJECT,
+            'serialize' => 'article'
+        ]);
     }
 }
