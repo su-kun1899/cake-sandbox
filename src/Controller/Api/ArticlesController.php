@@ -46,6 +46,29 @@ class ArticlesController extends AppController
     }
 
     /**
+     * @inheritDoc
+     */
+    public function beforeRender(EventInterface $event)
+    {
+        // TODO 基底クラスに何か用意してあげるとよさそう
+        // viewVar を json レスポンス用に serialize する
+        parent::beforeRender($event);
+        $viewVars = array_keys($this->viewBuilder()->getVars());
+        $this->viewBuilder()->setOption('serialize', $viewVars);
+    }
+
+    /**
+     * Json レスポンスを強制的にオブジェクト形式にする
+     * 空の場合に配列形式になるのを避けるための利用を想定
+     */
+    protected function enableForceObject()
+    {
+        // TODO 基底クラスに何か用意してあげるとよさそう
+        // 空の場合でもオブジェクトとして返したいときはオプション指定が必要
+        $this->viewBuilder()->setOption('jsonOptions', JSON_FORCE_OBJECT);
+    }
+
+    /**
      * Index method
      *
      * @return Response|null|void Renders view
@@ -58,15 +81,6 @@ class ArticlesController extends AppController
         $articles = $this->paginate($this->Articles);
 
         $this->set(compact('articles'));
-    }
-
-    public function beforeRender(EventInterface $event)
-    {
-        // TODO 基底クラスに何か用意してあげるとよさそう
-        // viewVar を json レスポンス用に serialize する
-        parent::beforeRender($event);
-        $viewVars = array_keys($this->viewBuilder()->getVars());
-        $this->viewBuilder()->setOption('serialize', $viewVars);
     }
 
     /**
@@ -85,13 +99,7 @@ class ArticlesController extends AppController
             return;
         }
 
+        $article = $this->Articles->get($article->id);
         $this->set(compact('article'));
-    }
-
-    protected function enableForceObject()
-    {
-        // TODO 基底クラスに何か用意してあげるとよさそう
-        // 空の場合でもオブジェクトとして返したいときはオプション指定が必要
-        $this->viewBuilder()->setOption('jsonOptions', JSON_FORCE_OBJECT);
     }
 }
