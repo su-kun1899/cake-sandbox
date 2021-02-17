@@ -67,7 +67,50 @@ class ArticlesControllerTest extends TestCase
      */
     public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        // given
+        $articleId = 1;
+
+        // when
+        $this->get("/api/articles/{$articleId}");
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $expected = $this->Articles->get($articleId);
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['article' => $expected], JSON_PRETTY_PRINT),
+            (string)$this->_response->getBody(),
+            'レスポンスの中身がDBの値と一致しません'
+        );
+    }
+
+    /**
+     * Test view method 404
+     *
+     * @dataProvider view404DataProvider
+     * @param mixed $articleId 記事ID
+     * @return void
+     */
+    public function testView_404($articleId): void
+    {
+        // when
+        $this->get("/api/articles/{$articleId}");
+
+        // then
+        $this->assertResponseCode(404, '404が返却されていません');
+    }
+
+    /**
+     * @see testView_404
+     * @return array
+     */
+    public function view404DataProvider(): array
+    {
+        return [
+            'DBにレコードがない' => [999999],
+            'ID書式が文字列' => ['foo'],
+        ];
     }
 
     /**
