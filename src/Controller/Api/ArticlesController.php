@@ -84,6 +84,16 @@ class ArticlesController extends AppController
     }
 
     /**
+     * View method
+     * @param int|string $id 記事ID
+     */
+    public function view($id): void
+    {
+        $article = $this->Articles->get($id);
+        $this->set(compact('article'));
+    }
+
+    /**
      * Add method
      */
     public function add(): void
