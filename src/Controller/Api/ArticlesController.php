@@ -45,6 +45,9 @@ class ArticlesController extends AppController
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function beforeRender(EventInterface $event)
     {
         // TODO 基底クラスに何か用意してあげるとよさそう
@@ -54,6 +57,10 @@ class ArticlesController extends AppController
         $this->viewBuilder()->setOption('serialize', $viewVars);
     }
 
+    /**
+     * Json レスポンスを強制的にオブジェクト形式にする
+     * 空の場合に配列形式になるのを避けるための利用を想定
+     */
     protected function enableForceObject()
     {
         // TODO 基底クラスに何か用意してあげるとよさそう
