@@ -99,6 +99,7 @@ class ArticlesController extends AppController
             return;
         }
 
+        $article = $this->Articles->get($article->id);
         $this->set(compact('article'));
     }
 }

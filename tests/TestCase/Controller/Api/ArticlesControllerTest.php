@@ -77,7 +77,26 @@ class ArticlesControllerTest extends TestCase
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        // given
+        $data = [
+            'user_id' => 1,
+            'title' => "create new post",
+        ];
+
+        // when
+        $this->post('/api/articles', $data);
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $response = json_decode((string)$this->_response->getBody());
+        $expected = $this->Articles->get($response->article->id);
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['article' => $expected], JSON_PRETTY_PRINT),
+            (string)$this->_response->getBody(),
+            'レスポンスの中身がDBの値と一致しません'
+        );
     }
 
     /**
