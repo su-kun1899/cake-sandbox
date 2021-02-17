@@ -45,7 +45,19 @@ class ArticlesControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        // when
+        $this->get('/api/articles');
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $expected = $this->Articles->find()->contain('Users');
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['articles' => $expected], JSON_PRETTY_PRINT),
+            (string)$this->_response->getBody(),
+            'レスポンスの中身がDBの値と一致しません'
+        );
     }
 
     /**
