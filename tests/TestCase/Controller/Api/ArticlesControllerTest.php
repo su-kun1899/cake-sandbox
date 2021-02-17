@@ -3,18 +3,21 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Api;
 
-use App\Controller\Api\ArticlesController;
+use App\Model\Table\ArticlesTable;
+use Cake\Datasource\ModelAwareTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
  * App\Controller\Api\ArticlesController Test Case
  *
+ * @property ArticlesTable Articles
  * @uses \App\Controller\Api\ArticlesController
  */
 class ArticlesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
+    use ModelAwareTrait;
 
     /**
      * Fixtures
@@ -27,6 +30,13 @@ class ArticlesControllerTest extends TestCase
         'app.Tags',
         'app.ArticlesTags',
     ];
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->Articles = $this->loadModel('Articles');
+    }
 
     /**
      * Test index method
