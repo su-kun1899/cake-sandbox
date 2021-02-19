@@ -4,7 +4,7 @@ services:
     container_name: cake-sandbox-web
     build:
       context: ./.docker
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
     ports:
       - "8080:80"
     volumes:
