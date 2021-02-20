@@ -88,11 +88,11 @@ class ArticlesControllerTest extends TestCase
     /**
      * Test view method 404
      *
-     * @dataProvider view404DataProvider
+     * @dataProvider invalidArticleIdProvider
      * @param mixed $articleId 記事ID
      * @return void
      */
-    public function testView_404($articleId): void
+    public function testView_error($articleId): void
     {
         // when
         $this->get("/api/articles/{$articleId}");
@@ -102,10 +102,11 @@ class ArticlesControllerTest extends TestCase
     }
 
     /**
-     * @see testView_404
      * @return array
+     *@see testDelete_error
+     * @see testView_error
      */
-    public function view404DataProvider(): array
+    public function invalidArticleIdProvider(): array
     {
         return [
             'DBにレコードがない' => [999999],
@@ -159,6 +160,35 @@ class ArticlesControllerTest extends TestCase
      */
     public function testDelete(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        // given
+        $articleId = 1;
+
+        // when
+        $this->delete("/api/articles/{$articleId}");
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $this->assertNull(
+            $this->Articles->findById($articleId)->first(),
+            'データが削除されていません'
+        );
+    }
+
+    /**
+     * Test delete method 404
+     *
+     * @dataProvider invalidArticleIdProvider
+     * @param mixed $articleId 記事ID
+     * @return void
+     */
+    public function testDelete_error($articleId): void
+    {
+        // when
+        $this->delete("/api/articles/{$articleId}");
+
+        // then
+        $this->assertResponseError('レスポンスがエラーになっていません');
     }
 }
