@@ -37,6 +37,7 @@ use Cake\Validation\Validator;
  * @method Article[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method Article[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @method Query findBySlug($slug = null)
+ * @method Query findById(int $articleId)
  *
  * @mixin TimestampBehavior
  */

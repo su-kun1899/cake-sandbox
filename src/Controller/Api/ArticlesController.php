@@ -112,4 +112,15 @@ class ArticlesController extends AppController
         $article = $this->Articles->get($article->id);
         $this->set(compact('article'));
     }
+
+    /**
+     * Delete method
+     *
+     * @param int|string $id 記事ID
+     */
+    public function delete($id): void
+    {
+        $article = $this->Articles->get($id);;
+        $this->Articles->delete($article);
+    }
 }

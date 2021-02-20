@@ -98,6 +98,7 @@ $routes->scope('/api', ['prefix' => 'Api'],function (RouteBuilder $builder) {
         $builder->get('/', ['action' => 'index']);
         $builder->post('/', ['action' => 'add']);
         $builder->get('/:id', ['action' => 'view'])->setPass(['id'])->setPatterns(['id' => '[0-9]+']);
+        $builder->delete('/:id', ['action' => 'delete'])->setPass(['id'])->setPatterns(['id' => '[0-9]+']);
     });
 //    $builder->scope('/articles', ['controller' => 'Articles'], function (RouteBuilder $builder) {
 //        $builder->get('/', ['action' => 'index']);
