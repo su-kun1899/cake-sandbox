@@ -15,6 +15,19 @@ jobs:
       image: sukun1899/cakephp:4-php8
     env:
       WORKSPACE: /var/www/cake_app
+      DATABASE_TEST_URL: mysql://my_app:secret@db:3306/test_my_app?encoding=utf8&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false
+
+    services:
+      db:
+        image: mysql:8
+        ports:
+          - "3306:3306"
+        options: --health-cmd "mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: test_my_app
+          MYSQL_USER: my_app
+          MYSQL_PASSWORD: secret
 
     steps:
     - name: Check out the repo
