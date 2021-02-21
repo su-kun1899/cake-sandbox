@@ -15,7 +15,7 @@ jobs:
       image: sukun1899/cakephp:4-php8
     env:
       WORKSPACE: /var/www/cake_app
-      DATABASE_TEST_URL: mysql://my_app:secret@db:3306/test_my_app?encoding=utf8&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false
+      DATABASE_TEST_URL: ${{ secrets.DATABASE_TEST_URL }}
 
     services:
       db:
