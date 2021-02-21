@@ -35,27 +35,27 @@ jobs:
         cd ${WORKSPACE}
         vendor/bin/phpunit
 
-  coding-standard:
-    name: Coding Standard
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.2'
-        extensions: mbstring, intl
-        coverage: none
-
-    - name: composer install
-      run: composer install
-
-    - name: Run PHP CodeSniffer
-      run: composer cs-check
+#  coding-standard:
+#    name: Coding Standard
+#    runs-on: ubuntu-18.04
+#
+#    steps:
+#    - uses: actions/checkout@v1
+#      with:
+#        fetch-depth: 1
+#
+#    - name: Setup PHP
+#      uses: shivammathur/setup-php@v2
+#      with:
+#        php-version: '7.2'
+#        extensions: mbstring, intl
+#        coverage: none
+#
+#    - name: composer install
+#      run: composer install
+#
+#    - name: Run PHP CodeSniffer
+#      run: composer cs-check
 
   static-analysis:
     name: Static Analysis
