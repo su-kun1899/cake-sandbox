@@ -151,7 +151,82 @@ class ArticlesControllerTest extends TestCase
      */
     public function testEdit(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        // given
+        $articleId = 1;
+        $before = $this->Articles->get($articleId);
+
+        // after
+        $data = [
+            'id' => $articleId,
+            'user_id' => 1,
+            'title' => "edit post title",
+            'body' => "edit post body",
+        ];
+
+        // when
+        $this->put("/api/articles/{$articleId}", $data);
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $after = $this->Articles->get($articleId);
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['article' => $after], JSON_PRETTY_PRINT),
+            (string)$this->_response->getBody(),
+            'レスポンスの中身がDBの値と一致しません'
+        );
+
+        // and
+        $this->assertNotSame($before->title, $after->title, 'タイトルが変更されていません');
+        $this->assertSame($data['title'], $after->title, 'タイトルの変更内容がパラメータと異なります');
+        $this->assertNotSame($before->body, $after->body, '本文が変更されていません');
+        $this->assertSame($data['body'], $after->body, '本文の変更内容がパラメータと異なります');
+    }
+
+    /**
+     * Test edit method
+     *
+     * @return void
+     */
+    public function testEdit_accecible(): void
+    {
+        // given
+        $articleId = 1;
+        $before = $this->Articles->get($articleId);
+
+        // after
+        $data = [
+            'id' => $articleId,
+            'user_id' => 1,
+            'title' => "edit post title",
+            'body' => "edit post body",
+        ];
+
+        // when
+        $this->put("/api/articles/{$articleId}", $data);
+
+        // then
+        $this->assertResponseOk('ステータスコードが成功になっていません');
+
+        // and
+        $response = json_decode((string)$this->_response->getBody());
+        $after = $this->Articles->get($articleId);
+        $this->assertJsonStringEqualsJsonString(
+            json_encode(['article' => $after], JSON_PRETTY_PRINT),
+            (string)$this->_response->getBody(),
+            'レスポンスの中身がDBの値と一致しません'
+        );
+
+        // and
+        $this->assertSame($before->id, $after->id, '記事IDが変更されています');
+        $this->assertSame($before->user_id, $after->user_id, 'ユーザーIDが変更されています');
+
+        // and
+        $this->assertNotSame($before->title, $after->title, 'タイトルが変更されていません');
+        $this->assertSame($data['title'], $after->title, 'タイトルの変更内容がパラメータと異なります');
+        $this->assertNotSame($before->body, $after->body, '本文が変更されていません');
+        $this->assertSame($data['body'], $after->body, '本文の変更内容がパラメータと異なります');
     }
 
     /**

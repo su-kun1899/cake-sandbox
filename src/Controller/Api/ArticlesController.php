@@ -116,6 +116,28 @@ class ArticlesController extends AppController
     }
 
     /**
+     * Edit method
+     *
+     * @param string $id
+     */
+    public function edit(string $id): void
+    {
+        $article = $this->Articles
+            ->get($id);
+
+        $article = $this->Articles->patchEntity($article, $this->request->getData());
+        if (!$this->Articles->save($article)) {
+            $errors = $article->getErrors();
+            $this->set('errors', compact('errors'));
+            $this->response = $this->response->withStatus(400);
+
+            return;
+        }
+
+        $this->set('article', $article);
+    }
+
+    /**
      * Delete method
      *
      * @param int|string $id 記事ID
