@@ -17,10 +17,10 @@ services:
     cap_add:
       - SYS_NICE
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-      MYSQL_DATABASE: my_app
-      MYSQL_USER: my_app
-      MYSQL_PASSWORD: secret
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "my_app"
+      MYSQL_USER: "my_app"
+      MYSQL_PASSWORD: "secret"
     volumes:
       - ./.docker/db/etc/mysql/conf.d:/etc/mysql/conf.d
       - ./.docker/db/data:/var/lib/mysql

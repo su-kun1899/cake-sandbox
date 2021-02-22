@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -28,6 +29,7 @@ class ArticlesController extends AppController
         // TODO API の基底クラスでやってもよさそう
         $this->loadComponent('RequestHandler');
     }
+
     /**
      * @inheritDoc
      */

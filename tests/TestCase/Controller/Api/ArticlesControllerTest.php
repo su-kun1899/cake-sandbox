@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Api;
@@ -103,7 +104,7 @@ class ArticlesControllerTest extends TestCase
 
     /**
      * @return array
-     *@see testDelete_error
+     * @see testDelete_error
      * @see testView_error
      */
     public function invalidArticleIdProvider(): array
