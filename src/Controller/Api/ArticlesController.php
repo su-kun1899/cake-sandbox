@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -28,6 +29,7 @@ class ArticlesController extends AppController
         // TODO API の基底クラスでやってもよさそう
         $this->loadComponent('RequestHandler');
     }
+
     /**
      * @inheritDoc
      */
@@ -111,6 +113,28 @@ class ArticlesController extends AppController
 
         $article = $this->Articles->get($article->id);
         $this->set(compact('article'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string $id
+     */
+    public function edit(string $id): void
+    {
+        $article = $this->Articles
+            ->get($id);
+
+        $article = $this->Articles->patchEntity($article, $this->request->getData());
+        if (!$this->Articles->save($article)) {
+            $errors = $article->getErrors();
+            $this->set('errors', compact('errors'));
+            $this->response = $this->response->withStatus(400);
+
+            return;
+        }
+
+        $this->set('article', $article);
     }
 
     /**
