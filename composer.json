@@ -48,7 +48,8 @@
         "cs-check": "phpcs --colors -p  src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
         "stan": "phpstan analyse",
-        "test": "phpunit --colors=always"
+        "test": "phpunit --colors=always",
+        "securty-salt":  "App\\Console\\Installer::generateSecuritySalt"
     },
     "prefer-stable": true,
     "config": {

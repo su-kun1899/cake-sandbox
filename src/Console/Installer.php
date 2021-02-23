@@ -171,6 +171,17 @@ class Installer
     }
 
     /**
+     * Generate the security.salt value
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     */
+    public static function generateSecuritySalt(Event $event)
+    {
+        $io = $event->getIO();
+        $io->write(hash('sha256', Security::randomBytes(64)));
+    }
+
+    /**
      * Set the security.salt value in the application's config file.
      *
      * @param string $dir The application's root directory.
