@@ -81,7 +81,7 @@ class Installer
     {
         $dotEnvConfig = $dir . '/config/.env';
         $dotEnvConfigTemplate = $dir . '/config/.env.example';
-        if (!file_exists($dotEnvConfig)) {
+        if (!file_exists($dotEnvConfig) && file_exists($dotEnvConfigTemplate)) {
             copy($dotEnvConfigTemplate, $dotEnvConfig);
             $io->write('Created `config/.env` file');
         }
