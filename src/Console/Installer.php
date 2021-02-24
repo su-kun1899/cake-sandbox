@@ -62,6 +62,7 @@ class Installer
 
         static::setFolderPermissions($rootDir, $io);
         static::setSecuritySalt($rootDir, $io);
+        static::setAppName($rootDir, $io);
 
         $class = 'Cake\Codeception\Console\Installer';
         if (class_exists($class)) {
@@ -240,6 +241,18 @@ class Installer
             return;
         }
         $io->write('Unable to update Security.salt value.');
+    }
+
+    /**
+     * Set the APP_NAME value in the application's config file.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function setAppName($dir, $io)
+    {
+        static::setAppNameInFile($dir, $io, 'my_app', '.env');
     }
 
     /**
