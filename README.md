@@ -13,9 +13,6 @@ docker exec \
     --prefer-dist \
     -d /var/www/cake_app
 
-# setup .env
-cp config/.env.example config/.env
-
 # create database
 docker exec \
   cake-sandbox-web \
