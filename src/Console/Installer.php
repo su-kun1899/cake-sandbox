@@ -54,18 +54,49 @@ class Installer
     public static function postInstall(Event $event)
     {
         $io = $event->getIO();
-
         $rootDir = dirname(dirname(__DIR__));
 
-        static::createAppLocalConfig($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
-
         static::setFolderPermissions($rootDir, $io);
-        static::setSecuritySalt($rootDir, $io);
 
         $class = 'Cake\Codeception\Console\Installer';
         if (class_exists($class)) {
             $class::customizeCodeceptionBinary($event);
+        }
+    }
+
+    /**
+     * Set up some config for local development.
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     * @throws \Exception Exception raised by validator.
+     * @return void
+     */
+    public static function setupLocal(Event $event)
+    {
+        $io = $event->getIO();
+
+        $rootDir = dirname(dirname(__DIR__));
+
+        static::createDotEnvConfig($rootDir, $io);
+        static::setSecuritySalt($rootDir, $io);
+        static::setAppName($rootDir, $io);
+    }
+
+    /**
+     * Create config/.env file if it does not exist.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function createDotEnvConfig($dir, $io)
+    {
+        $dotEnvConfig = $dir . '/config/.env';
+        $dotEnvConfigTemplate = $dir . '/config/.env.example';
+        if (!file_exists($dotEnvConfig) && file_exists($dotEnvConfigTemplate)) {
+            copy($dotEnvConfigTemplate, $dotEnvConfig);
+            $io->write('Created `config/.env` file');
         }
     }
 
@@ -191,7 +222,7 @@ class Installer
     public static function setSecuritySalt($dir, $io)
     {
         $newKey = hash('sha256', Security::randomBytes(64));
-        static::setSecuritySaltInFile($dir, $io, $newKey, 'app_local.php');
+        static::setSecuritySaltInFile($dir, $io, $newKey, '.env');
     }
 
     /**
@@ -223,6 +254,18 @@ class Installer
             return;
         }
         $io->write('Unable to update Security.salt value.');
+    }
+
+    /**
+     * Set the APP_NAME value in the application's config file.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function setAppName($dir, $io)
+    {
+        static::setAppNameInFile($dir, $io, 'my_app', '.env');
     }
 
     /**

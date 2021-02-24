@@ -14,7 +14,13 @@ jobs:
     container:
       image: sukun1899/cakephp:4-php8
     env:
-      WORKSPACE: /var/www/cake_app
+      WORKSPACE: "/var/www/cake_app"
+      APP_NAME: "my_app"
+      DEBUG: "true"
+      APP_ENCODING: "UTF-8"
+      APP_DEFAULT_LOCALE: "en_US"
+      APP_DEFAULT_TIMEZONE: "UTC"
+      SECURITY_SALT: ${{ secrets.SECURITY_SALT }}
       DATABASE_TEST_URL: ${{ secrets.DATABASE_TEST_URL }}
 
     services:
@@ -24,10 +30,10 @@ jobs:
           - "3306:3306"
         options: --health-cmd "mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: test_my_app
-          MYSQL_USER: my_app
-          MYSQL_PASSWORD: secret
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: "test_my_app"
+          MYSQL_USER: "my_app"
+          MYSQL_PASSWORD: "secret"
 
     steps:
     - name: Check out the repo

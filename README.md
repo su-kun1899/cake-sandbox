@@ -8,14 +8,16 @@ docker-compose up --build
 
 # composer
 docker exec \
-  -e COMPOSER_PROCESS_TIMEOUT=600 \
   cake-sandbox-web \
   composer install \
     --prefer-dist \
     -d /var/www/cake_app
 
-# setup .env
-cp config/.env.example config/.env
+# set up for local dev
+docker exec \
+  cake-sandbox-web \
+  composer run-script setup-local-cmd \
+    -d /var/www/cake_app
 
 # create database
 docker exec \
