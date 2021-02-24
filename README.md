@@ -13,6 +13,12 @@ docker exec \
     --prefer-dist \
     -d /var/www/cake_app
 
+# set up for local dev
+docker exec \
+  cake-sandbox-web \
+  composer run-script setup-local-cmd \
+    -d /var/www/cake_app
+
 # create database
 docker exec \
   cake-sandbox-web \

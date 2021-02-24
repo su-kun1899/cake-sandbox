@@ -54,20 +54,33 @@ class Installer
     public static function postInstall(Event $event)
     {
         $io = $event->getIO();
-
         $rootDir = dirname(dirname(__DIR__));
 
-        static::createDotEnvConfig($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
-
         static::setFolderPermissions($rootDir, $io);
-        static::setSecuritySalt($rootDir, $io);
-        static::setAppName($rootDir, $io);
 
         $class = 'Cake\Codeception\Console\Installer';
         if (class_exists($class)) {
             $class::customizeCodeceptionBinary($event);
         }
+    }
+
+    /**
+     * Set up some config for local development.
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     * @throws \Exception Exception raised by validator.
+     * @return void
+     */
+    public static function setupLocal(Event $event)
+    {
+        $io = $event->getIO();
+
+        $rootDir = dirname(dirname(__DIR__));
+
+        static::createDotEnvConfig($rootDir, $io);
+        static::setSecuritySalt($rootDir, $io);
+        static::setAppName($rootDir, $io);
     }
 
     /**
