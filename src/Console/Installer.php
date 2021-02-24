@@ -57,7 +57,7 @@ class Installer
 
         $rootDir = dirname(dirname(__DIR__));
 
-        static::createAppLocalConfig($rootDir, $io);
+//        static::createAppLocalConfig($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
 
         static::setFolderPermissions($rootDir, $io);
@@ -191,7 +191,7 @@ class Installer
     public static function setSecuritySalt($dir, $io)
     {
         $newKey = hash('sha256', Security::randomBytes(64));
-        static::setSecuritySaltInFile($dir, $io, $newKey, 'app_local.php');
+        static::setSecuritySaltInFile($dir, $io, $newKey, '.env');
     }
 
     /**
