@@ -8,7 +8,6 @@ docker-compose up --build
 
 # composer
 docker exec \
-  -e COMPOSER_PROCESS_TIMEOUT=600 \
   cake-sandbox-web \
   composer install \
     --prefer-dist \
