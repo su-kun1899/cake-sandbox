@@ -14,7 +14,13 @@ jobs:
     container:
       image: sukun1899/cakephp:4-php8
     env:
-      WORKSPACE: /var/www/cake_app
+      WORKSPACE: "/var/www/cake_app"
+      APP_NAME: "__APP_NAME__"
+      DEBUG: "true"
+      APP_ENCODING: "UTF-8"
+      APP_DEFAULT_LOCALE: "en_US"
+      APP_DEFAULT_TIMEZONE: "UTC"
+      SECURITY_SALT: ${{ secrets.SECURITY_SALT }}
       DATABASE_TEST_URL: ${{ secrets.DATABASE_TEST_URL }}
 
     services:
