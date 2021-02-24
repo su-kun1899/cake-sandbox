@@ -57,7 +57,7 @@ class Installer
 
         $rootDir = dirname(dirname(__DIR__));
 
-//        static::createAppLocalConfig($rootDir, $io);
+        static::createDotEnvConfig($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
 
         static::setFolderPermissions($rootDir, $io);
@@ -66,6 +66,23 @@ class Installer
         $class = 'Cake\Codeception\Console\Installer';
         if (class_exists($class)) {
             $class::customizeCodeceptionBinary($event);
+        }
+    }
+
+    /**
+     * Create config/.env file if it does not exist.
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function createDotEnvConfig($dir, $io)
+    {
+        $dotEnvConfig = $dir . '/config/.env';
+        $dotEnvConfigTemplate = $dir . '/config/.env.example';
+        if (!file_exists($dotEnvConfig)) {
+            copy($dotEnvConfigTemplate, $dotEnvConfig);
+            $io->write('Created `config/.env` file');
         }
     }
 
