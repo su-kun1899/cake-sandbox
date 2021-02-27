@@ -3,14 +3,9 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\Article;
 use ArrayObject;
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
-use Cake\ORM\Association\BelongsTo;
-use Cake\ORM\Association\BelongsToMany;
-use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -20,26 +15,24 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property UsersTable&BelongsTo $Users
- * @property TagsTable&BelongsToMany $Tags
- *
- * @method Article newEmptyEntity()
- * @method Article newEntity(array $data, array $options = [])
- * @method Article[] newEntities(array $data, array $options = [])
- * @method Article get($primaryKey, $options = [])
- * @method Article findOrCreate($search, ?callable $callback = null, $options = [])
- * @method Article patchEntity(EntityInterface $entity, array $data, array $options = [])
- * @method Article[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method Article|false save(EntityInterface $entity, $options = [])
- * @method Article saveOrFail(EntityInterface $entity, $options = [])
- * @method Article[]|ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method Article[]|ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method Article[]|ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method Article[]|ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- * @method Query findBySlug($slug = null)
- * @method Query findById(int $articleId)
- *
- * @mixin TimestampBehavior
+ * @property \App\Model\Table\UsersTable&\App\Model\Table\BelongsTo $Users
+ * @property \App\Model\Table\TagsTable&\App\Model\Table\BelongsToMany $Tags
+ * @method \App\Model\Table\Article newEmptyEntity()
+ * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Article get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Article findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Article patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Article[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\ORM\Query findBySlug($slug = null)
+ * @method \Cake\ORM\Query findById(int $articleId)
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ArticlesTable extends Table
 {
@@ -71,8 +64,8 @@ class ArticlesTable extends Table
     /**
      * Default validation rules.
      *
-     * @param Validator $validator Validator instance.
-     * @return Validator
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -113,8 +106,8 @@ class ArticlesTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param RulesChecker $rules The rules object to be modified.
-     * @return RulesChecker
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -127,13 +120,13 @@ class ArticlesTable extends Table
     /**
      * Model.beforeSave イベント
      *
-     * @param EventInterface $event
-     * @param EntityInterface $entity
-     * @param ArrayObject $options
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Datasource\EntityInterface $entity
+     * @param \ArrayObject $options
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        /** @var Article $entity */
+        /** @var \App\Model\Entity\Article $entity */
         if ($entity->tag_string) {
             $entity->tags = $this->_buildTags($entity->user_id, $entity->tag_string);
         }
@@ -173,15 +166,16 @@ class ArticlesTable extends Table
         foreach ($newTags as $tag) {
             $out[] = $this->Tags->newEntity(['title' => $tag, 'user_id' => $userId]);
         }
+
         return $out;
     }
 
     /**
      * タグの付いた記事を検索する
      *
-     * @param Query $query
+     * @param \Cake\ORM\Query $query
      * @param array $options
-     * @return Query
+     * @return \Cake\ORM\Query
      */
     public function findTagged(Query $query, array $options): Query
     {

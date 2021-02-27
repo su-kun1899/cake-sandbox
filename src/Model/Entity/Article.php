@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
@@ -15,12 +14,12 @@ use Cake\ORM\Entity;
  * @property string $slug
  * @property string|null $body
  * @property bool $published
- * @property FrozenTime $created
- * @property FrozenTime $modified
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  * @property string $tag_string
  *
- * @property User $user
- * @property Tag[] $tags
+ * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Tag[] $tags
  */
 class Article extends Entity
 {
@@ -54,13 +53,15 @@ class Article extends Entity
         if (empty($this->tags)) {
             return '';
         }
-        $tags = collection($this->tags);;
+        $tags = collection($this->tags);
+
         $str = $tags->reduce(
             function ($string, $tag) {
                 return $string . $tag->title . ', ';
             },
             ''
         );
+
         return trim($str, ', ');
     }
 }

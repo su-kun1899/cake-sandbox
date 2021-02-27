@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\ArticlesTable;
-use Authorization\IdentityInterface;
 use Cake\ORM\Query;
 
 /**
@@ -13,9 +11,9 @@ use Cake\ORM\Query;
 class ArticlesTablePolicy
 {
     /**
-     * @param IdentityInterface|\Authentication\IdentityInterface|null $user
-     * @param Query $query
-     * @return Query
+     * @param \Authorization\IdentityInterface|\Authentication\IdentityInterface|null $user
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
      */
     public function scopeIndex($user, Query $query)
     {

@@ -138,8 +138,8 @@ class PagesControllerTest extends TestCase
                     'User' => [
                         'id' => 1,
                         'username' => 'testing',
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
     }

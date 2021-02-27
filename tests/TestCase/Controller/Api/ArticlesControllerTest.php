@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller\Api;
 
-use App\Model\Table\ArticlesTable;
 use Cake\Datasource\ModelAwareTrait;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
@@ -125,7 +123,7 @@ class ArticlesControllerTest extends TestCase
         // given
         $data = [
             'user_id' => 1,
-            'title' => "create new post",
+            'title' => 'create new post',
         ];
 
         // when
@@ -159,8 +157,8 @@ class ArticlesControllerTest extends TestCase
         $data = [
             'id' => $articleId,
             'user_id' => 1,
-            'title' => "edit post title",
-            'body' => "edit post body",
+            'title' => 'edit post title',
+            'body' => 'edit post body',
         ];
 
         // when
@@ -199,8 +197,8 @@ class ArticlesControllerTest extends TestCase
         $data = [
             'id' => $articleId,
             'user_id' => 1,
-            'title' => "edit post title",
-            'body' => "edit post body",
+            'title' => 'edit post title',
+            'body' => 'edit post body',
         ];
 
         // when
