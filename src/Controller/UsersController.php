@@ -10,10 +10,13 @@ use Cake\Http\Response;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * @method \App\Model\Entity\User[]|\App\Controller\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): ?Response
     {
         parent::beforeFilter($event);
@@ -34,6 +37,9 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null
+     */
     public function login(): ?Response
     {
         $this->request->allowMethod(['get', 'post']);
@@ -55,6 +61,11 @@ class UsersController extends AppController
         return null;
     }
 
+    /**
+     * logout method
+     *
+     * @return void
+     */
     public function logout()
     {
         $result = $this->Authentication->getResult();

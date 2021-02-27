@@ -9,12 +9,14 @@ use Cake\Http\Response;
  * Articles Controller
  *
  * @property \App\Model\Table\ArticlesTable $Articles
- * @method \App\Model\Entity\Article[]|\App\Controller\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ArticlesController extends AppController
 {
     /**
      * Index method
+     *
+     * @return void
      */
     public function index()
     {
@@ -28,7 +30,8 @@ class ArticlesController extends AppController
     /**
      * View method
      *
-     * @param null|string $slug
+     * @param null|string $slug The slug.
+     * @return void
      */
     public function view($slug = null)
     {
@@ -41,8 +44,10 @@ class ArticlesController extends AppController
 
     /**
      * Add method
+     *
+     * @return \Cake\Http\Response|null
      */
-    public function add(): ?Response
+    public function add()
     {
         $article = $this->Articles->newEmptyEntity();
         $article->user_id = $this->Authentication->getIdentityData('id');
@@ -70,7 +75,7 @@ class ArticlesController extends AppController
     /**
      * Edit method
      *
-     * @param string $slug
+     * @param string $slug The slug.
      * @return \Cake\Http\Response|null
      */
     public function edit(string $slug): ?Response
@@ -103,7 +108,7 @@ class ArticlesController extends AppController
     /**
      * Delete method
      *
-     * @param $slug
+     * @param string $slug The slug.
      * @return \Cake\Http\Response|null
      */
     public function delete($slug): ?Response
@@ -123,6 +128,10 @@ class ArticlesController extends AppController
         return null;
     }
 
+    /**
+     * @param mixed ...$tags The tags.
+     * @return void
+     */
     public function tags(...$tags)
     {
         $articles = $this->Articles->find(

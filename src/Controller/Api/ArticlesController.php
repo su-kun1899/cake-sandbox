@@ -58,6 +58,8 @@ class ArticlesController extends AppController
     /**
      * Json レスポンスを強制的にオブジェクト形式にする
      * 空の場合に配列形式になるのを避けるための利用を想定
+     *
+     * @return void
      */
     protected function enableForceObject()
     {
@@ -71,7 +73,7 @@ class ArticlesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index(): void
+    public function index()
     {
         $this->paginate = [
             'contain' => ['Users'],
@@ -85,6 +87,7 @@ class ArticlesController extends AppController
      * View method
      *
      * @param int|string $id 記事ID
+     * @return void
      */
     public function view($id): void
     {
@@ -94,6 +97,8 @@ class ArticlesController extends AppController
 
     /**
      * Add method
+     *
+     * @return void
      */
     public function add(): void
     {
@@ -115,7 +120,8 @@ class ArticlesController extends AppController
     /**
      * Edit method
      *
-     * @param string $id
+     * @param string $id The id.
+     * @return void
      */
     public function edit(string $id): void
     {
@@ -138,6 +144,7 @@ class ArticlesController extends AppController
      * Delete method
      *
      * @param int|string $id 記事ID
+     * @return void
      */
     public function delete($id): void
     {

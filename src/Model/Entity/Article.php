@@ -45,6 +45,9 @@ class Article extends Entity
         'tag_string' => true,
     ];
 
+    /**
+     * @return string
+     */
     protected function _getTagString(): string
     {
         if (isset($this->_fields['tag_string'])) {

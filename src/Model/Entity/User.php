@@ -47,6 +47,10 @@ class User extends Entity
         'password',
     ];
 
+    /**
+     * @param string $password The password
+     * @return string|null
+     */
     protected function _setPassword(string $password): ?string
     {
         if (strlen($password) > 0) {

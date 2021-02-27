@@ -11,8 +11,8 @@ use Cake\ORM\Query;
 class ArticlesTablePolicy
 {
     /**
-     * @param \Authorization\IdentityInterface|\Authentication\IdentityInterface|null $user
-     * @param \Cake\ORM\Query $query
+     * @param \Authorization\IdentityInterface|\Authentication\IdentityInterface|null $user ユーザー
+     * @param \Cake\ORM\Query $query クエリ
      * @return \Cake\ORM\Query
      */
     public function scopeIndex($user, Query $query)

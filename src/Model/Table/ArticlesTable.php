@@ -15,9 +15,9 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
- * @property \App\Model\Table\UsersTable&\App\Model\Table\BelongsTo $Users
- * @property \App\Model\Table\TagsTable&\App\Model\Table\BelongsToMany $Tags
- * @method \App\Model\Table\Article newEmptyEntity()
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\TagsTable&\Cake\ORM\Association\BelongsToMany $Tags
+ * @method \App\Model\Entity\Article newEmptyEntity()
  * @method \App\Model\Entity\Article newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
@@ -26,10 +26,10 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Article|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Article saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Article[]|\App\Model\Table\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @method \Cake\ORM\Query findBySlug($slug = null)
  * @method \Cake\ORM\Query findById(int $articleId)
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
@@ -120,9 +120,11 @@ class ArticlesTable extends Table
     /**
      * Model.beforeSave イベント
      *
-     * @param \Cake\Event\EventInterface $event
-     * @param \Cake\Datasource\EntityInterface $entity
-     * @param \ArrayObject $options
+     * @param \Cake\Event\EventInterface $event The event.
+     * @param \Cake\Datasource\EntityInterface $entity The entity.
+     * @param \ArrayObject $options The options.
+     * @return void
+     * @noinspection PhpUnusedParameterInspection
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
@@ -138,6 +140,11 @@ class ArticlesTable extends Table
         }
     }
 
+    /**
+     * @param int $userId The user id.
+     * @param string $tagString The tag.
+     * @return array
+     */
     protected function _buildTags($userId, $tagString): array
     {
         // タグをトリミング
@@ -173,8 +180,8 @@ class ArticlesTable extends Table
     /**
      * タグの付いた記事を検索する
      *
-     * @param \Cake\ORM\Query $query
-     * @param array $options
+     * @param \Cake\ORM\Query $query The query.
+     * @param array $options The options.
      * @return \Cake\ORM\Query
      */
     public function findTagged(Query $query, array $options): Query
