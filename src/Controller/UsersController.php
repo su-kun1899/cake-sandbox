@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Entity\User;
-use App\Model\Table\UsersTable;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
  * Users Controller
  *
- * @property UsersTable $Users
- * @method User[]|ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\UsersTable $Users
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
+    /**
+     * @inheritDoc
+     */
     public function beforeFilter(EventInterface $event): ?Response
     {
         parent::beforeFilter($event);
@@ -28,7 +28,7 @@ class UsersController extends AppController
     /**
      * Index method
      *
-     * @return Response|null|void Renders view
+     * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
@@ -37,6 +37,9 @@ class UsersController extends AppController
         $this->set(compact('users'));
     }
 
+    /**
+     * @return \Cake\Http\Response|null
+     */
     public function login(): ?Response
     {
         $this->request->allowMethod(['get', 'post']);
@@ -58,6 +61,11 @@ class UsersController extends AppController
         return null;
     }
 
+    /**
+     * logout method
+     *
+     * @return void
+     */
     public function logout()
     {
         $result = $this->Authentication->getResult();
@@ -72,7 +80,7 @@ class UsersController extends AppController
      * View method
      *
      * @param string|null $id User id.
-     * @return Response|null|void Renders view
+     * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
@@ -87,7 +95,7 @@ class UsersController extends AppController
     /**
      * Add method
      *
-     * @return Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -108,7 +116,7 @@ class UsersController extends AppController
      * Edit method
      *
      * @param string|null $id User id.
-     * @return Response|null|void Redirects on successful edit, renders view otherwise.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
@@ -132,7 +140,7 @@ class UsersController extends AppController
      * Delete method
      *
      * @param string|null $id User id.
-     * @return Response|null|void Redirects to index.
+     * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)

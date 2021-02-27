@@ -46,7 +46,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
+class Application extends BaseApplication implements
+    AuthenticationServiceProviderInterface,
+    AuthorizationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -143,6 +145,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      * That is when running commands.
      *
      * @return void
+     * @noinspection PhpUnusedLocalVariableInspection
      */
     protected function bootstrapCli(): void
     {
@@ -158,6 +161,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $this->addPlugin('Authorization');
     }
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+     * @return \Authentication\AuthenticationServiceInterface
+     */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
         $authenticationService = new AuthenticationService([
@@ -190,6 +197,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         return $authenticationService;
     }
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request The request.
+     * @return \Authorization\AuthorizationServiceInterface
+     */
     public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
     {
         $resolver = new OrmResolver();
@@ -197,6 +208,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         return new AuthorizationService($resolver);
     }
 
+    /**
+     * @param \Cake\Routing\RouteBuilder $routes The routes.
+     * @return void
+     */
     public function routes(RouteBuilder $routes): void
     {
         // api は csrf 使わないので、 routes で定義する

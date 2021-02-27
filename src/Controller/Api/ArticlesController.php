@@ -1,21 +1,17 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Api;
 
 use App\Controller\AppController;
-use App\Model\Entity\Article;
-use App\Model\Table\ArticlesTable;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 
 /**
  * Articles Controller
  *
- * @property ArticlesTable $Articles
- * @method Article[]|ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\ArticlesTable $Articles
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ArticlesController extends AppController
 {
@@ -62,6 +58,8 @@ class ArticlesController extends AppController
     /**
      * Json レスポンスを強制的にオブジェクト形式にする
      * 空の場合に配列形式になるのを避けるための利用を想定
+     *
+     * @return void
      */
     protected function enableForceObject()
     {
@@ -73,9 +71,9 @@ class ArticlesController extends AppController
     /**
      * Index method
      *
-     * @return Response|null|void Renders view
+     * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index(): void
+    public function index()
     {
         $this->paginate = [
             'contain' => ['Users'],
@@ -87,7 +85,9 @@ class ArticlesController extends AppController
 
     /**
      * View method
+     *
      * @param int|string $id 記事ID
+     * @return void
      */
     public function view($id): void
     {
@@ -97,6 +97,8 @@ class ArticlesController extends AppController
 
     /**
      * Add method
+     *
+     * @return void
      */
     public function add(): void
     {
@@ -118,7 +120,8 @@ class ArticlesController extends AppController
     /**
      * Edit method
      *
-     * @param string $id
+     * @param string $id The id.
+     * @return void
      */
     public function edit(string $id): void
     {
@@ -141,10 +144,12 @@ class ArticlesController extends AppController
      * Delete method
      *
      * @param int|string $id 記事ID
+     * @return void
      */
     public function delete($id): void
     {
-        $article = $this->Articles->get($id);;
+        $article = $this->Articles->get($id);
+
         $this->Articles->delete($article);
     }
 }

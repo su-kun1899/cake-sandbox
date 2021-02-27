@@ -205,6 +205,7 @@ class Installer
      * Generate the security.salt value
      *
      * @param \Composer\Script\Event $event The composer event object.
+     * @return void
      */
     public static function generateSecuritySalt(Event $event)
     {

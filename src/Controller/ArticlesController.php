@@ -1,24 +1,22 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Entity\Article;
-use App\Model\Table\ArticlesTable;
-use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
 
 /**
  * Articles Controller
  *
- * @property ArticlesTable $Articles
- * @method Article[]|ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\ArticlesTable $Articles
+ * @method \App\Model\Entity\Article[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class ArticlesController extends AppController
 {
     /**
      * Index method
+     *
+     * @return void
      */
     public function index()
     {
@@ -31,7 +29,9 @@ class ArticlesController extends AppController
 
     /**
      * View method
-     * @param null|string $slug
+     *
+     * @param null|string $slug The slug.
+     * @return void
      */
     public function view($slug = null)
     {
@@ -44,8 +44,10 @@ class ArticlesController extends AppController
 
     /**
      * Add method
+     *
+     * @return \Cake\Http\Response|null
      */
-    public function add(): ?Response
+    public function add()
     {
         $article = $this->Articles->newEmptyEntity();
         $article->user_id = $this->Authentication->getIdentityData('id');
@@ -56,6 +58,7 @@ class ArticlesController extends AppController
 
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Your article has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to add your article.'));
@@ -72,8 +75,8 @@ class ArticlesController extends AppController
     /**
      * Edit method
      *
-     * @param string $slug
-     * @return Response|null
+     * @param string $slug The slug.
+     * @return \Cake\Http\Response|null
      */
     public function edit(string $slug): ?Response
     {
@@ -88,6 +91,7 @@ class ArticlesController extends AppController
             $this->Articles->patchEntity($article, $this->request->getData());
             if ($this->Articles->save($article)) {
                 $this->Flash->success(__('Your article has been updated.'));
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to update your article'));
@@ -104,38 +108,43 @@ class ArticlesController extends AppController
     /**
      * Delete method
      *
-     * @param $slug
-     * @return Response|null
+     * @param string $slug The slug.
+     * @return \Cake\Http\Response|null
      */
     public function delete($slug): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        /** @var Article $article */
+        /** @var \App\Model\Entity\Article $article */
         $article = $this->Articles->findBySlug($slug)->firstOrFail();
         $this->Authorization->authorize($article);
 
         if ($this->Articles->delete($article)) {
             $this->Flash->success(__('The {0} article has been deleted.', $article->title));
+
             return $this->redirect(['action' => 'index']);
         }
 
         return null;
     }
 
+    /**
+     * @param mixed ...$tags The tags.
+     * @return void
+     */
     public function tags(...$tags)
     {
         $articles = $this->Articles->find(
             'tagged',
             [
-                'tags' => $tags
+                'tags' => $tags,
             ]
         );
 
         $this->set(
             [
                 'articles' => $articles,
-                'tags' => $tags
+                'tags' => $tags,
             ]
         );
     }
