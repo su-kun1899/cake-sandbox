@@ -14,7 +14,6 @@ jobs:
     container:
       image: sukun1899/cakephp:4-php8
     env:
-      WORKSPACE: "/var/www/cake_app"
       APP_NAME: "my_app"
       DEBUG: "true"
       APP_ENCODING: "UTF-8"
@@ -41,18 +40,13 @@ jobs:
       with:
         fetch-depth: 1
 
-    - name: Move to workspace
-      run: |
-        mv ${GITHUB_WORKSPACE}/* ${WORKSPACE}
-
     - name: composer install
       run: |
-        composer install --prefer-dist -d ${WORKSPACE}
+        composer install --prefer-dist
 
     - name: Run PHPUnit
       run: |
-        cd ${WORKSPACE}
-        vendor/bin/phpunit
+        composer test
 
   coding-standard:
     name: Coding Standard
@@ -71,7 +65,8 @@ jobs:
         composer install --prefer-dist
 
     - name: Run PHP CodeSniffer
-      run: composer cs-check
+      run: |
+        composer cs-check
 
 #  static-analysis:
 #    name: Static Analysis
