@@ -80,6 +80,7 @@ class ArticlesController extends AppController
      */
     public function edit(string $slug): ?Response
     {
+        /** @var \App\Model\Entity\Article $article */
         $article = $this->Articles
             ->findBySlug($slug)
             ->contain('Tags')
