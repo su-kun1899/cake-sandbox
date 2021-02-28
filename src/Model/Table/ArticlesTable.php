@@ -122,7 +122,7 @@ class ArticlesTable extends Table
      *
      * @param \Cake\Event\EventInterface $event The event.
      * @param \Cake\Datasource\EntityInterface $entity The entity.
-     * @param \ArrayObject $options The options.
+     * @param \ArrayObject<mixed, mixed> $options The options.
      * @return void
      * @noinspection PhpUnusedParameterInspection
      */
