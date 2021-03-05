@@ -1,9 +1,11 @@
 <?php
 
 use Cake\Cache\Engine\FileEngine;
+use Cake\Console\ConsoleOutput;
 use Cake\Database\Connection;
 use Cake\Database\Driver\Mysql;
 use Cake\Error\ExceptionRenderer;
+use Cake\Log\Engine\ConsoleLog;
 use Cake\Log\Engine\FileLog;
 use Cake\Mailer\Transport\MailTransport;
 
@@ -309,7 +311,7 @@ return [
              */
             'flags' => [],
             'cacheMetadata' => true,
-            'log' => false,
+            'log' => env('DEBUG', false),
 
             /*
              * Set identifier quoting to true if you are using reserved words or
@@ -356,20 +358,19 @@ return [
      */
     'Log' => [
         'debug' => [
-            'className' => FileLog::class,
-            'path' => LOGS,
-            'file' => 'debug',
-            'url' => env('LOG_DEBUG_URL', null),
-            'scopes' => false,
+            'className' => ConsoleLog::class,
+            'stream' => 'php://stdout',
             'levels' => ['notice', 'info', 'debug'],
+            'scopes' => false,
+            'outputAs' => ConsoleOutput::COLOR,
+            'dateFormat' => '[' . '\m\y\_\a\p\p' . ':' . DateTime::ATOM . ']',
         ],
         'error' => [
-            'className' => FileLog::class,
-            'path' => LOGS,
-            'file' => 'error',
-            'url' => env('LOG_ERROR_URL', null),
-            'scopes' => false,
+            'className' => ConsoleLog::class,
+            'stream' => 'php://stderr',
             'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+            'scopes' => false,
+            'outputAs' => ConsoleOutput::COLOR,
         ],
         // To enable this dedicated query log, you need set your datasource's log flag to true
         'queries' => [
