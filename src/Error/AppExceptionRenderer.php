@@ -8,7 +8,6 @@ use Cake\Core\Exception\CakeException;
 use Cake\Error\Debugger;
 use Cake\Error\ExceptionRenderer;
 use Cake\Http\Exception\HttpException;
-use Cake\Http\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
