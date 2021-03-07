@@ -1,5 +1,6 @@
 <?php
 
+use App\Error\AppExceptionRenderer;
 use Cake\Cache\Engine\FileEngine;
 use Cake\Console\ConsoleOutput;
 use Cake\Database\Connection;
@@ -183,7 +184,7 @@ return [
      */
     'Error' => [
         'errorLevel' => E_ALL,
-        'exceptionRenderer' => ExceptionRenderer::class,
+        'exceptionRenderer' => AppExceptionRenderer::class,
         'skipLog' => [],
         'log' => true,
         'trace' => true,
