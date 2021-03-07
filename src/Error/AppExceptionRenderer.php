@@ -22,6 +22,24 @@ class AppExceptionRenderer extends ExceptionRenderer
      */
     public function render(): ResponseInterface
     {
+        $url = $this->controller->getRequest()->getRequestTarget();
+        if (str_starts_with($url, '/api')) {
+            return $this->renderForApi();
+        }
+
+        return parent::render();
+    }
+
+    /**
+     * Renders the response for the exception especially web api
+     *
+     * @return \Cake\Http\Response
+     */
+    private function renderForApi()
+    {
+        // api の場合は json で返す
+        $this->controller->RequestHandler->renderAs($this->controller, 'json');
+
         $exception = $this->error;
         $code = $this->getHttpCode($exception);
         $method = $this->_method($exception);
@@ -84,11 +102,6 @@ class AppExceptionRenderer extends ExceptionRenderer
             $this->controller->set($exception->getAttributes());
         }
         $this->controller->setResponse($response);
-
-        if (str_starts_with($url, '/api')) {
-            // api の場合は json で返す
-            $this->controller->RequestHandler->renderAs($this->controller, 'json');
-        }
 
         return $this->_outputMessage($template);
     }
