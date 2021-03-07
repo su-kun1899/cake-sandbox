@@ -70,37 +70,13 @@ class AppExceptionRenderer extends ExceptionRenderer
         $viewVars = [
             'message' => $response->getReasonPhrase(),
             'url' => h($url),
-            'error' => $exception,
             'code' => $code,
         ];
         $serialize = ['message', 'url', 'code'];
 
-        $isDebug = Configure::read('debug');
-        if ($isDebug) {
-            $trace = (array)Debugger::formatTrace(
-                $exception->getTrace(),
-                [
-                    'format' => 'array',
-                    'args' => false,
-                ]
-            );
-            $origin = [
-                'file' => $exception->getFile() ?: 'null',
-                'line' => $exception->getLine() ?: 'null',
-            ];
-            // Traces don't include the origin file/line.
-            array_unshift($trace, $origin);
-            $viewVars['trace'] = $trace;
-            $viewVars += $origin;
-            $serialize[] = 'file';
-            $serialize[] = 'line';
-        }
         $this->controller->set($viewVars);
         $this->controller->viewBuilder()->setOption('serialize', $serialize);
 
-        if ($exception instanceof CakeException && $isDebug) {
-            $this->controller->set($exception->getAttributes());
-        }
         $this->controller->setResponse($response);
 
         return $this->_outputMessage($template);
