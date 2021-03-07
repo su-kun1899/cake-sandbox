@@ -68,7 +68,7 @@ class AppExceptionRenderer extends ExceptionRenderer
         $response = $response->withStatus($code);
 
         $viewVars = [
-            'message' => $message,
+            'message' => $response->getReasonPhrase(),
             'url' => h($url),
             'error' => $exception,
             'code' => $code,
