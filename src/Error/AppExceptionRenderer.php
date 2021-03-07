@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace App\Error;
 
-use Cake\Core\Configure;
-use Cake\Core\Exception\CakeException;
-use Cake\Error\Debugger;
 use Cake\Error\ExceptionRenderer;
 use Cake\Http\Exception\HttpException;
 use Psr\Http\Message\ResponseInterface;
@@ -50,16 +47,7 @@ class AppExceptionRenderer extends ExceptionRenderer
             return $this->_customMethod($method, $exception);
         }
 
-        $message = $this->_message($exception, $code);
-        $url = $this->controller->getRequest()->getRequestTarget();
         $response = $this->controller->getResponse();
-
-        if ($exception instanceof CakeException) {
-            /** @psalm-suppress DeprecatedMethod */
-            foreach ((array)$exception->responseHeader() as $key => $value) {
-                $response = $response->withHeader($key, $value);
-            }
-        }
         if ($exception instanceof HttpException) {
             foreach ($exception->getHeaders() as $name => $value) {
                 $response = $response->withHeader($name, $value);
@@ -67,15 +55,16 @@ class AppExceptionRenderer extends ExceptionRenderer
         }
         $response = $response->withStatus($code);
 
+        $url = $this->controller->getRequest()->getRequestTarget();
+
         $viewVars = [
             'message' => $response->getReasonPhrase(),
             'url' => h($url),
             'code' => $code,
         ];
-        $serialize = ['message', 'url', 'code'];
 
         $this->controller->set($viewVars);
-        $this->controller->viewBuilder()->setOption('serialize', $serialize);
+        $this->controller->viewBuilder()->setOption('serialize', array_keys($viewVars));
 
         $this->controller->setResponse($response);
 
