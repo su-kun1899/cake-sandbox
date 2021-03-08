@@ -1,5 +1,7 @@
 # cake-sandbox
 
+[![CakePHP App CI](https://github.com/su-kun1899/cake-sandbox/actions/workflows/ci.yml/badge.svg)](https://github.com/su-kun1899/cake-sandbox/actions/workflows/ci.yml)
+
 ## Quick Start Guide
 
 ```sh
