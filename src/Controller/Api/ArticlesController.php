@@ -102,6 +102,17 @@ class ArticlesController extends AppController
      */
     public function add(): void
     {
+        // TODO CORS のプリフライト用。Middleware に移行したい
+        /** @var \Cake\Http\Response $response */
+        $response = $this->getResponse()->cors($this->getRequest())
+            ->allowOrigin(['http://localhost:3000'])
+            ->allowMethods(['POST', 'OPTIONS'])
+            ->allowHeaders(['Content-Type'])
+            ->build();
+        $this->setResponse(
+            $response
+        );
+
         $article = $this->Articles->newEntity($this->request->getData());
 
         if (!$this->Articles->save($article)) {
@@ -151,5 +162,23 @@ class ArticlesController extends AppController
         $article = $this->Articles->get($id);
 
         $this->Articles->delete($article);
+    }
+
+    /**
+     * @return void
+     */
+    public function options()
+    {
+        // TODO CORS のプリフライト用。Middleware に移行したい
+        /** @var \Cake\Http\Response $response */
+        $response = $this->getResponse()->cors($this->getRequest())
+            ->allowOrigin(['http://localhost:3000'])
+            ->allowMethods(['POST', 'OPTIONS'])
+            ->allowHeaders(['Content-Type'])
+            ->build();
+
+        $this->setResponse(
+            $response
+        );
     }
 }

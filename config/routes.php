@@ -93,9 +93,10 @@ $routes->scope('/', function (RouteBuilder $builder) {
  * });
  * ```
  */
-$routes->scope('/api', ['prefix' => 'Api'],function (RouteBuilder $builder) {
+$routes->scope('/api', ['prefix' => 'Api'], function (RouteBuilder $builder) {
     $builder->scope('/:controller', function (RouteBuilder $builder) {
         $builder->get('/', ['action' => 'index']);
+        $builder->options('/', ['action' => 'options']);
         $builder->post('/', ['action' => 'add']);
         $builder->get('/:id', ['action' => 'view'])->setPass(['id'])->setPatterns(['id' => '[0-9]+']);
         $builder->put('/:id', ['action' => 'edit'])->setPass(['id'])->setPatterns(['id' => '[0-9]+']);
